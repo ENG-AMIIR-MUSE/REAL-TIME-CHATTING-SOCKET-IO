@@ -4,9 +4,11 @@ const AuthContext = createContext(null);
 
 //provider which children should use the data   we will wrap it the our app
 export const AuthProvider = ({ children }) => {
-  const [userAuth,setUserAuth]  =  useState(JSON.parse(localStorage.getItem('user-chat'))||  null)
+  const [userAuth, setUserAuth] = useState(
+    JSON.parse(localStorage.getItem("chat-user")) || null
+  );
   return (
-    <AuthContext.Provider value={{userAuth,setUserAuth}}>
+    <AuthContext.Provider value={{ userAuth, setUserAuth }}>
       {children} // app.js
     </AuthContext.Provider>
   );
