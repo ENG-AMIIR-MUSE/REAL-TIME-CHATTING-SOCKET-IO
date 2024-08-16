@@ -9,7 +9,7 @@ import { useUser } from "./components/context/AuthContext";
 function App() {
   const [count, setCount] = useState(0);
   const { userAuth } = useUser();
-  console.log(userAuth);
+  // console.log(userAuth);
   return (
     <div className="flex justify-center  items-center h-screen ">
       {/* <Login/> */}

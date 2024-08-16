@@ -3,7 +3,7 @@ import useConversation from "../zustand/useConversation";
 import { toast } from "react-hot-toast";
 export default function useSendMessage() {
   const [loading, setLoading] = useState(false);
-  const { selectedConversation } = useConversation();
+  const { selectedConversation, messages, setMessages } = useConversation();
 
   try {
     const send = async (message) => {
@@ -23,6 +23,7 @@ export default function useSendMessage() {
       if (data.error) {
         throw new Error(data.error);
       }
+      setMessages([...messages, data]);
     };
     return { loading, send };
   } catch (error) {

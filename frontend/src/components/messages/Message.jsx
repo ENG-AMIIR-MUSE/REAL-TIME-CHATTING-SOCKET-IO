@@ -1,17 +1,37 @@
+import { extractTime } from "../../utiliy/extractTime";
+import useConversation from "../../zustand/useConversation";
+import { useUser } from "../context/AuthContext";
 
+const Message = ({ message }) => {
+  const { userAuth } = useUser();
+  const { selectedConversation } = useConversation();
+  const fromMe = message.senderId === userAuth._id;
+  const formattedTime = extractTime(message.createdAt);
+  const chatClassName = fromMe ? "chat-end" : "chat-start";
+  const profilePic = fromMe
+    ? userAuth.profilePic
+    : selectedConversation?.profilePic;
+  const bubbleBgColor = fromMe ? "bg-blue-500" : "bg-white";
+  const text = fromMe ? "text-white" : "text-black";
 
-const Message = () => {
-	
-	return (
-		<div >
-			<div className='chat-image avatar'>
-				<div className='w-10 rounded-full'>
-					<img alt='Tailwind CSS chat bubble component' />
-				</div>
-			</div>
-			<div className={`chat-bubble text-white  pb-2`}>Hello</div>
-			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>112121</div>
-		</div>
-	);
+  const shakeClass = message.shouldShake ? "shake" : "";
+
+  return (
+    <div className={`chat ${chatClassName}`}>
+      <div className="chat-image avatar">
+        <div className="w-10 rounded-full">
+          <img alt="Tailwind CSS chat bubble component" src={profilePic} />
+        </div>
+      </div>
+      <div
+        className={`chat-bubble shadow ${text} ${bubbleBgColor} ${shakeClass} pb-2`}
+      >
+        {message.message}
+      </div>
+      <div className="chat-footer opacity-50 text-xs flex gap-1 items-center">
+        {formattedTime}
+      </div>
+    </div>
+  );
 };
 export default Message;

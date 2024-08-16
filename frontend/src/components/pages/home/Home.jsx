@@ -9,10 +9,10 @@ import { useUser } from "../../context/AuthContext";
 
 const Home = () => {
   const authUser = useUser();
-  console.log(authUser);
+  // console.log(authUser);
   return (
     <div className="flex   sm:h-[450px] md:h-[550px] rounded-lg overflow-hidden bg-red-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
-      <Sidebar />
+      <Sidebar className="text-black" />
       <MessageContainer />
     </div>
   );

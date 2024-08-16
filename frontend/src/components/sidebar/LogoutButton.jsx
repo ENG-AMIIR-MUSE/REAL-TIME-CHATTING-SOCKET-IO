@@ -11,7 +11,7 @@ const LogoutButton = () => {
         <BiLogOut
           aria-disabled={loading}
           onClick={() => logout()}
-          className="w-6 h-6 text-white cursor-pointer"
+          className="w-10 h-10 text-white p-1 flex justify-center items-center  bg-cyan-500  rounded-full  cursor-pointer"
         />
       )}
       {/*  */}

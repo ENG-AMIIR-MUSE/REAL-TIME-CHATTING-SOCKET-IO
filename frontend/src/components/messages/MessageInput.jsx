@@ -2,9 +2,24 @@ import { useState } from "react";
 import useSendMessage from "../../hooks/useSendMessage";
 import { BsSend } from "react-icons/bs";
 import toast from "react-hot-toast";
+import { useSocket } from "../context/SocketContext";
+import useConversation from "../../zustand/useConversation";
+import { useUser } from "../context/AuthContext";
 const MessageInput = () => {
   const [message, setMessage] = useState("");
+  const { selectedConversation } = useConversation();
+  const { userAuth } = useUser();
+  const { socket } = useSocket();
   const { send, loading } = useSendMessage();
+  const handleonChange = (e) => {
+    setMessage(e.target.value);
+    // Client-side code
+    socket?.emit("typing", {
+      senderId: userAuth._id,
+      senderName: userAuth.fullName,
+      receiverId: selectedConversation._id,
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!message) {
@@ -20,8 +35,8 @@ const MessageInput = () => {
         <input
           type="text"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="border text-sm rounded-lg block w-full p-2.5  bg-gray-700 border-gray-600 text-white"
+          onChange={handleonChange}
+          className="border text-sm rounded-lg outline-none  block w-full p-2.5  bg-white border-gray-600 text-black"
           placeholder="Send a message"
         />
         <button
