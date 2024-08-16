@@ -12,7 +12,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     // console.log(userAuth);
     if (userAuth) {
-      const socket = io("http://localhost:3000", {
+      const socket = io("https://real-time-chatting-socket-io.onrender.com", {
         query: { userId: userAuth._id },
       });
 
