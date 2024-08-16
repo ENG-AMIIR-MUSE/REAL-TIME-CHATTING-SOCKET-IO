@@ -1,3 +1,4 @@
+import path from "path";
 import authRoute from "./routes/auth-routes.js";
 import messageRoute from "./routes/message-route.js";
 import usersRoute from "./routes/users-route.js";
@@ -9,6 +10,9 @@ import express from "express";
 import { app, server } from "./socket/socket.js";
 dotenv.config();
 
+const dirname = path.resolve();
+console.log("dirname ", dirname);
+
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
@@ -18,6 +22,12 @@ setConnection(process.env.MONGO_URL);
 app.use("/api/auth", authRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/users", usersRoute);
+
+app.use(express.static(path.join(dirname, "/frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(dirname, "frontend", "dist", "index.html"));
+});
 server.listen(port, () => {
   console.log(`server is runnign on port `, port);
 });

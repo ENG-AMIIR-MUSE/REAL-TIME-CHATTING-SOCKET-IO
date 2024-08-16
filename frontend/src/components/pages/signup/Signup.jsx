@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Gender from "./Gender";
 import useSignup from "../../../hooks/useSignup";
-import GenderCheckbox from "./Gender";
+import { Link } from "react-router-dom";
+import Gender from "./Gender";
 
 export default function Signup() {
   const [inputs, setInputs] = useState({
@@ -9,10 +9,9 @@ export default function Signup() {
     username: "",
     password: "",
     confirmPassword: "",
-    // ??????????????????????????????????????????????>>>>><<<<<<<<><><><><><><><</></></></></>
     gender: "",
   });
-  // const [loading,setLoading] = useState(false)
+
   const { loading, signup } = useSignup();
 
   const handleCheckboxChange = (gender) => {
@@ -22,78 +21,107 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(inputs);
-    
     await signup(inputs);
   };
+
   return (
-    <div className="max-w-lg m-auto mt-32 rounded-lg">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col  bg-white rounded-lg p-5"
-      >
-        <span className="font-bold text-xl text-black ">
-          User Registration{" "}
-        </span>
-        <div className="flex items-center gap-5 ">
-          <div className="flex flex-col">
-            <label className="label">Username</label>
+    <div className="flex w-full max-w-lg flex-col items-center justify-center min-w-96 mx-auto border border-1 shadow-md">
+      <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
+        <h1 className="text-3xl font-semibold text-center text-gray-300">
+          Signup
+          <span className="text-blue-500"> ChatApp</span>
+        </h1>
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="label p-2">
+              <span className="text-base label-text">Username</span>
+            </label>
             <input
               type="text"
-              placeholder="Username"
+              placeholder="Enter username"
+              className="w-full input input-bordered h-10 bg-white shadow border border-1"
+              value={inputs.username}
               onChange={(e) =>
                 setInputs({ ...inputs, username: e.target.value })
               }
-              className="input bg-white/30 input-bordered w-full max-w-xs"
             />
           </div>
-          <div className="flex flex-col">
-            <label className="label">Full Name</label>
+
+          <div className="mb-4">
+            <label className="label p-2">
+              <span className="text-base label-text">Full Name</span>
+            </label>
             <input
               type="text"
-              placeholder="Fullname"
+              placeholder="Enter full name"
+              className="w-full input input-bordered h-10 bg-white shadow border border-1"
+              value={inputs.fullName}
               onChange={(e) =>
                 setInputs({ ...inputs, fullName: e.target.value })
               }
-              className="input bg-white/30 input-bordered w-full "
             />
           </div>
+
+          <div className="mb-4">
+            <label className="label p-2">
+              <span className="text-base label-text">Password</span>
+            </label>
+            <input
+              type="password"
+              placeholder="Enter password"
+              className="w-full input input-bordered h-10 bg-white shadow border border-1"
+              value={inputs.password}
+              onChange={(e) =>
+                setInputs({ ...inputs, password: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="label p-2">
+              <span className="text-base label-text">Confirm Password</span>
+            </label>
+            <input
+              type="password"
+              placeholder="Confirm password"
+              className="w-full input input-bordered h-10 bg-white shadow border border-1"
+              value={inputs.confirmPassword}
+              onChange={(e) =>
+                setInputs({ ...inputs, confirmPassword: e.target.value })
+              }
+            />
+          </div>
+
+          <Gender
+            onCheckboxChange={handleCheckboxChange}
+            selectedGender={inputs.gender}
+          />
+
+          <div className="mb-4 mt-4">
+            <button
+              className="btn btn-block bg-cyan-500 hover:bg-cyan-500 text-white border-0 outline-none btn-sm mt-2"
+              disabled={loading}
+              type="submit"
+            >
+              {loading ? (
+                <span className="loading loading-spinner "></span>
+              ) : (
+                "Sign Up"
+              )}
+            </button>
+          </div>
+        </form>
+
+        <div className="text-center mt-2">
+          <Link
+            to="/login"
+            className="text-sm hover:underline hover:text-blue-600"
+          >
+            Already have an account? Login
+          </Link>
         </div>
-        <label className="label">password</label>
-
-        <input
-          type="password"
-          placeholder="Type here"
-          onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
-          className="input bg-white/30 input-bordered w-full "
-        />
-        <label className="label">Confirm Password</label>
-
-        <input
-          type="password"
-          onChange={(e) =>
-            setInputs({ ...inputs, confirmPassword: e.target.value })
-          }
-          placeholder="Type here"
-          className="input bg-white/30 input-bordered w-full "
-        />
-        <GenderCheckbox
-          onCheckboxChange={handleCheckboxChange}
-          selectedGender={inputs.gender}
-        />
-
-        <button
-          type="submit"
-          className="px-5 rounded-lg py-2 mt-5  bg-blue-500 text-white "
-        >
-         {loading ? 'Loading ...': 'submit'}
-        </button>
-        <div className="flex items-center  gap-5 justify-between">
-          <p>Doesn't Have an account ? </p>
-          <label htmlFor="" className="label">
-            Login
-          </label>
-        </div>
-      </form>
+      </div>
     </div>
   );
 }

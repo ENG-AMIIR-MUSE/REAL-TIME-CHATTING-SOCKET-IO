@@ -24,6 +24,7 @@ function App() {
           path="/register"
           element={userAuth ? <Navigate to={"/"} /> : <Signup />}
         />
+
         <Route
           path="/login"
           element={userAuth ? <Navigate to={"/"} /> : <Login />}
